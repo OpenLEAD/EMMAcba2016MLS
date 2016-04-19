@@ -1,0 +1,12 @@
+\section{Moving Least Squares for surface interpolation}
+Moving Least Squares (MLS), introduced by Backus-Gilbert, is a method for
+near-best approximations to functionals on $\mathbb{R}^d$, using scattered-data
+information. The method works very well for interpolation, smoothing and
+derivatives' approximations, and the local error is bounded in terms of the
+error of a local best polynomial approximation \cite{levin1998approximation}.
+
+In the specific case of surface interpolation, let $M := {n+m \choose n}$ be the
+dimension of the space polynomials of degree at most $m$ in $n$ variables, and
+$\{\phi_1(\textbf{x}),\phi_2(\textbf{x}),\cdots, \phi_M(\textbf{x})\}$ be the
+monomials of degree at most $m$ in $n$ real variables. For instance, for
+$m=2$ and $n=2$, $\Phi=\{1,x,y,x^2,y^2,xy\}$
