@@ -5,8 +5,34 @@ information. The method works very well for interpolation, smoothing and
 derivatives' approximations, and the local error is bounded in terms of the
 error of a local best polynomial approximation \cite{levin1998approximation}.
 
-In the specific case of surface interpolation, let $M := {n+m \choose n}$ be the
-dimension of the space polynomials of degree at most $m$ in $n$ variables, and
-$\{\phi_1(\textbf{x}),\phi_2(\textbf{x}),\cdots, \phi_M(\textbf{x})\}$ be the
-monomials of degree at most $m$ in $n$ real variables. For instance, for
-$m=2$ and $n=2$, $\Phi=\{1,x,y,x^2,y^2,xy\}$
+Let $M := {n+m \choose n}$ be the dimension of the space polynomials of degree
+at most $m$ in $n$ variables, and $\Phi =
+\{\phi_1(\textbf{x}),\phi_2(\textbf{x}),\cdots, \phi_M(\textbf{x})\}$ be the
+monomials of degree at most $m$ in $n$ real variables \cite{bos1989moving}. For
+instance, for $n=3$, $\Phi=\{x_1^i x_2^j x_3^k  | m \geq i+j+k\}$, and $i, j, k
+\in \mathbb{N}_0$. 
+
+Suppose that there are $N \geq M$ distinct points
+$\textbf{x}_i \in \mathbb{R}^n$, not all of which lie on the zero set of a
+polynomial of degree at most $m$. The objective is to approximate
+$f:\mathbb{R}^n \rightarrow \mathbb{R}$, at $\textbf{x}_0 \in \mathbb{R}^n$, by
+the weighted least-squares polynomial of degree $m$ at the points
+$\textbf{x}_i$, $1\leq i \leq N$, with weights $w_i :=
+w(\textbf{x}_i-\textbf{x}_0)$. It is an optimization problem described as:
+\begin{equation}
+\min_c (B^T\textbf{c}-\textbf{f})^TW(B^T\textbf{c}-\textbf{f})
+\end{equation}
+where $B^T \in \mathbb{R}^{N\times M}$ is the Vandermonde matrix of the
+monomials of degree at most $m$ evaluated at the points $x_i$:
+$B_{ij}^T=\phi_j(\textbf{x}_i)$, $W=\textrm{diag}(w_1,w_2,\cdots,w_N) \in
+\mathbb{R}^{N\times N}$, $\textbf{f}=(f(\textbf{x}_1),\cdots,f(\textbf{x}_N))^T
+\in \mathbb{R}^N$, and the approximation to $f(\textbf{x}_0)$ is
+$\sum_{i=1}^{M}c_i\phi_i(\textbf{x}_0)$, $\textbf{c} \in \mathbb{R}^M$. Under
+assumptions of positive definite $W$ and full rank $B^T$, $\textbf{c}$ is the
+solution of the normal equations:
+\begin{equation}
+(BWB^T)\textbf{c}=BW\textbf{f}
+\end{equation}
+
+In the specific case of surface interpolation, the objective is to
+also estimated normal vectors juttler2002least
