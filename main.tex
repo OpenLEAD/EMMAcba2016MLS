@@ -5,7 +5,11 @@
 \usepackage{amssymb}
 \usepackage{comment}
 \usepackage{graphicx}
-\usepackage{subfigure}   
+\usepackage{subfigure} 
+\usepackage{amsmath} 
+\usepackage{kpfonts}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} 
 
 \begin{document} 
 
@@ -37,6 +41,7 @@ UFRJ, Rio de Janeiro, Brasil.}
 \input{introduction}
 \input{problem}
 \input{mls}
+\include{mlsn}
 
 \bibliography{main} 
 \end{document}

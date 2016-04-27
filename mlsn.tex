@@ -1,0 +1,23 @@
+$m$ samples\\
+$\textbf{x}=(x,y,z)$\\
+$\vec{n_i} \in \mathbb{R}^3 $ is the normal vector of the sample $i$.\\
+$\Phi(x,y,z) \in \mathbb{R}^{35}$ monomials\\
+$\Phi_i = \Phi(x_i,y_i,z_i)$\\
+$\textbf{c}(\textbf{x}): \mathbb{R}^3 \rightarrow \mathbb{R}^{35}$\\
+$w_{i}(\textbf{x}) =
+\frac{1}{\sigma\sqrt[2]{2\pi}}e^{-\frac{\norm{\textbf{x}-\textbf{x}_i}^2}{2\sigma^2}}$
+
+\begin{equation*}
+\begin{aligned}
+& \underset{c(\textbf{x})}{\text{minimize}}
+& &  \sum^m_{i=1}
+\norm{ \Phi_i^T\textbf{c(x)}}^2w_{i}(\textbf{x})+\sum^m_{i=1}
+\norm{\frac{d\textbf{c(x)}}{d\textbf{x}}^T\Phi_i\times
+\vec{n}_i+\textbf{c(x)}^T\frac{d\Phi_i}{d\textbf{x}}\times
+\vec{n}_i}^2w_{i}(\textbf{x})\\
+& \text{subject to}
+& & \frac{d\textbf{c(x)}}{d\textbf{x}}^T\Phi_i\cdot
+\vec{n}_i+\textbf{c(x)}^T\frac{d\Phi_i}{d\textbf{x}}\cdot
+\vec{n}_i \geq 1.  
+\end{aligned}
+\end{equation*}
