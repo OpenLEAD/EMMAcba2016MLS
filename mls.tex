@@ -5,8 +5,99 @@ information. The method works very well for interpolation, smoothing and
 derivatives' approximations, and the local error is bounded in terms of the
 error of a local best polynomial approximation \cite{levin1998approximation}.
 
-In the specific case of surface interpolation, let $M := {n+m \choose n}$ be the
-dimension of the space polynomials of degree at most $m$ in $n$ variables, and
-$\{\phi_1(\textbf{x}),\phi_2(\textbf{x}),\cdots, \phi_M(\textbf{x})\}$ be the
-monomials of degree at most $m$ in $n$ real variables. For instance, for
-$m=2$ and $n=2$, $\Phi=\{1,x,y,x^2,y^2,xy\}$
+Let $M := {n+m \choose n}$ be the dimension of the space polynomials of degree
+at most $m$ in $n$ variables, and $\Phi =
+\{\phi_1(\textbf{x}),\phi_2(\textbf{x}),\cdots, \phi_M(\textbf{x})\}$ be the
+monomials of degree at most $m$ in $n$ real variables \cite{bos1989moving}. For
+instance, for $n=3$, $\Phi=\{x_1^i x_2^j x_3^k  | m \geq i+j+k\}$, and $i, j, k
+\in \mathbb{N}_0$. 
+
+Suppose that there are $N \geq M$ distinct points
+$\textbf{x}_i \in \mathbb{R}^n$, not all of which lie on the zero set of a
+polynomial of degree at most $m$. The objective is to approximate
+$f:\mathbb{R}^n \rightarrow \mathbb{R}$, at $\textbf{x}_0 \in \mathbb{R}^n$, by
+the weighted least-squares polynomial of degree $m$ at the points
+$\textbf{x}_i$, $1\leq i \leq N$, with weights $w_i :=
+w(\textbf{x}_i-\textbf{x}_0)$. It is an optimization problem described as:
+
+\begin{equation*}
+\begin{aligned}
+& \underset{\textbf{c}}{\text{minimize}}
+& &  (B^T\textbf{c}-\textbf{f})^TW(B^T\textbf{c}-\textbf{f})
+\end{aligned}
+\end{equation*}
+where $B^T \in \mathbb{R}^{N\times M}$ is the Vandermonde matrix of the
+monomials of degree at most $m$ evaluated at the points $x_i$:
+$B_{ij}^T=\phi_j(\textbf{x}_i)$, $W=\textrm{diag}(w_1,w_2,\cdots,w_N) \in
+\mathbb{R}^{N\times N}$, $\textbf{f}=(f(\textbf{x}_1),\cdots,f(\textbf{x}_N))^T
+\in \mathbb{R}^N$, and the approximation to $f(\textbf{x}_0)$ is
+$\sum_{i=1}^{M}c_i\phi_i(\textbf{x}_0)$, $\textbf{c} \in \mathbb{R}^M$. Under
+assumptions of positive definite $W$ and full rank $B^T$, $\textbf{c}$ is the
+solution of the normal equations:
+\begin{equation}
+(BWB^T)\textbf{c}=BW\textbf{f}
+\label{eq:2}
+\end{equation}
+
+In the specific case of surface interpolation, the objective is to fit the
+\textit{coating samples}, but also the surface gradient should met the
+estimated normal vectors. The augmented solution can be formulated as
+$\textbf{f}=(f(\textbf{x}_1),n^x_{x_1},n^y_{x_2},n^z_{x_3},\cdots,f(\textbf{x}_N),n^x_{x_N},n^y_{x_N},n^z_{x_N})$
+\cite{juttler2002least},  the augmented Vandermonde matrix has the monomials
+derivatives $B_{ij}^T = (\phi_j(\textbf{x}_i),
+\frac{d\phi_j}{d\textbf{x}}(\textbf{x}_i))$, the wighted matrix can be a
+normal distribution
+$W=\frac{1}{\sigma\sqrt[2]{2\pi}}e^{-\frac{(\textbf{x}_0-\textbf{x}_i)^2}{2\sigma^2}}$,
+thus the polynom's coefficients, $\textbf{c}$, can be found by the solution of
+the normal equation (Eq.~\ref{eq:2}). In this approach, the optimization will
+equally try to fit the points and the estimated normal vectors (surface
+gradient L2-norm equal 1).
+ 
+However, the surface's gradients should met the estimated
+normal vectors' directions, not its amplitudes as formulated above.
+The surface's gradient in a specific point $\textbf{x}_i$ is
+$\nabla
+S_i=\nabla
+B_i^T\textbf{c}=\frac{d\textbf{c(x)}}{d\textbf{x}}^T\phi_i+\textbf{c(x)}^T\frac{d\phi_i}{d\textbf{x}}$.
+At the polynomial equation $\textbf{f}=\textbf{0}$, and the second term for
+minimization is $\norm{\nabla S_i\times \vec{n}_i}^2$, since the surface's
+gradient should have the normal vector's direction. Therefore, the
+optimization problem is:
+
+\begin{equation}
+%\resizebox{0.45\textwidth}{!}{$
+\begin{aligned}
+& \underset{c(\textbf{x})}{\text{minimize}}
+& &  \sum^N_{i=1}
+\norm{ \phi_i^T\textbf{c(x)}}^2w_{i}(\textbf{x})+\sum^N_{i=1}
+\norm{\frac{d\textbf{c(x)}}{d\textbf{x}}^T\phi_i\times
+\vec{n}_i+\textbf{c(x)}^T\frac{d\phi_i}{d\textbf{x}}\times
+\vec{n}_i}^2w_{i}(\textbf{x})\\
+& \text{subject to}
+& & \frac{d\textbf{c(x)}}{d\textbf{x}}^T\phi_i\cdot
+\vec{n}_i+\textbf{c(x)}^T\frac{d\phi_i}{d\textbf{x}}\cdot
+\vec{n}_i \geq 1.  
+\end{aligned}
+%$}
+\end{equation}
+
+The optimization can be reformulated in a quadratic programming type:
+\begin{equation}
+\begin{aligned}
+& \underset{\textbf{c}}{\text{minimize}}
+& &  \textbf{c}^TP\textbf{c}+\textbf{q}^T\textbf{c}\\
+& \text{subject to}
+& & G\textbf{c} \leq \textbf{h}. 
+\end{aligned}
+\label{eq:3}
+\end{equation}
+where $P=B^TWB$, $B_{ij}^T=\phi_j(\textbf{x}_i)$,
+$\textbf{q}^T=-\textbf{f}^TWB$,
+$G_{ij}^T=-\frac{d\phi_j}{d\textbf{x}}(\textbf{x}_i)$, and $-h$ is the gradient
+L2-norm minimum value, e.g., $h=-\textbf{1}$.
+
+Both methods were evaluated for different values of $\sigma$, variance of the
+normal distribution (weight matrix).
+
+The methods
+

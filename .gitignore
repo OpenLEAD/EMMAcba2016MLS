@@ -1,7 +1,13 @@
 /Manuscript.pdf
 /Manuscript.synctex.gz
 /tmp/
+<<<<<<< HEAD
 /main.aux
 /main.bbl
 /main.blg
+=======
+/Manuscrip.synctex.gz
+/main.aux
+>>>>>>> branch 'master' of https://github.com/OpenLEAD/EMMAcba2016MLS.git
 /main.log
+/mlsn.tex
